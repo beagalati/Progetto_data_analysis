@@ -4,7 +4,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-
+import tkinter
 import streamlit as st
 
 import pyqrcode
@@ -309,9 +309,11 @@ def scelta3():
 
 #grafici
 def pie(data,colore,titolo):
-  title="VOLUME"+" "+titolo.upper()
-  pie = go.Pie(data,title=title, values = data["Volume"],names = "Date",color_discrete_sequence=[colore],textinfo="label+percent")
-  return pie
+   
+   title="VOLUME"+" "+titolo.upper()
+   pie = px.pie(data,title=title, values = data["Volume"],names = "Date",color_discrete_sequence=[colore])
+   #pie.show()
+   return pie
 
 #media dei prezzi appartenenti allo stesso giorno,escluso il volume
 def grafico_candele(dati,titolo,colore):
@@ -319,8 +321,8 @@ def grafico_candele(dati,titolo,colore):
   mean=prezzigiorno.mean(axis=1) #axis=1 significa che faccio la media per righe
  
   candela=make_subplots(rows=4,cols=1,specs=[[{"rowspan":3}],[None],[None],[{"rowspan":1}]]) #rowspan(raggruppo righe) significa che la prima figura occupa le prime tre righe e la seconda solo l'ultima
-  candela.add_trace(go.scatter.Line(x=dati["Date"], y=mean, marker_color=colore))
-  candela.add_trace(go.Candlestick(x=dati["Date"],open=dati["Open"],high=dati["High"],low=dati["Low"],close=dati["Close"],increasing_line_color= "teal", decreasing_line_color= "turquoise"), row=1, col=1)
+  candela.add_trace(go.Line(x=dati["Date"], y=mean, marker_color=colore))
+  candela.add_trace(go.Candlestick(x=dati["Date"],open=dati["Open"],high=dati["High"],low=dati["Low"],close=dati["Close"],increasing_line_color= "gold", decreasing_line_color= "tan"), row=1, col=1)
   candela.add_trace(go.Bar(x=dati["Date"],y=dati["Volume"], marker_color=colore),row=4,col=1)
  
   candela.update_layout(xaxis_rangeslider_visible=False, showlegend=False) #tolgo la riga di sotto e la legenda
@@ -586,7 +588,7 @@ def dispersione1(data,titolo,colore):
   ax.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA") 
   ax.legend()
   plt.show()
-  return fig, ax
+  return fig
 
 def dispersione2(data1,titolo1,colore1,data2,titolo2,colore2):
   close_mean=data1["Close"].mean()
@@ -620,7 +622,7 @@ def dispersione2(data1,titolo1,colore1,data2,titolo2,colore2):
   ax1.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA")  
   plt.tight_layout()
   plt.show()
-  return fig, ax1,ax2
+  return fig
 
 def dispersione3(data1,titolo1,colore1,data2,titolo2,colore2,data3,titolo3,colore3):
   close_mean=data1["Close"].mean()
@@ -668,7 +670,7 @@ def dispersione3(data1,titolo1,colore1,data2,titolo2,colore2,data3,titolo3,color
   ax1.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA") 
   plt.tight_layout()
   plt.show()
-  return fig, ax1, ax2, ax3
+  return fig
  
 
 def qr_code():
