@@ -1,0 +1,57 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyPZ1c3plODnBG/H0T05eO4M",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/beagalati/Progetto_data_analysis/blob/main/MAPPE\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "\n",
+        "def mappa1():\n",
+        "  map1 = go.Figure(go.Scattermapbox(mode = \"markers\",lon = [\"10.866667\"], lat = [\"44.53333\"],text=[\"Maranello (FERRARI)\"],marker={\"size\": 15,\"opacity\":0.5, \"color\": [\"red\"]}))\n",
+        "  map1.update_layout(mapbox = {'style': \"stamen-terrain\"}, margin = {'l':0, 'r':0, 'b':0, 't':0})\n",
+        "  return map1\n",
+        "\n",
+        "def mappa2():\n",
+        "  map2 = go.Figure(go.Scattermapbox(mode = \"markers\",lon = [\"10.866667\",\"-83.1763\"], lat = [\"44.53333\",\"42.3223\"],text=[\"Maranello (FERRARI)\",\"Deaborn (FORD)\"],marker={\"size\": 15,\"opacity\":0.5, \"color\": [\"red\",\"blue\"]}))\n",
+        "  map2.update_layout(mapbox = {'style': \"stamen-terrain\"}, margin = {'l':0, 'r':0, 'b':0, 't':0})\n",
+        "  return map2\n",
+        "\n",
+        "def mappa3():\n",
+        "  map3 = go.Figure(go.Scattermapbox(mode = \"markers\",lon = [\"10.866667\",\"-83.1763\",\"9.1859243\"], lat = [\"44.53333\",\"42.3223\",\"45.4654219\"],text=[\"Maranello (FERRARI)\",\"Deaborn (FORD)\",\"Milano (ALFA ROMEO)\"],marker={\"size\": 15,\"opacity\":0.5, \"color\": [\"red\",\"blue\",\"darkviolet\"]}))\n",
+        "  map3.update_layout(mapbox = {'style': \"stamen-terrain\"}, margin = {'l':0, 'r':0, 'b':0, 't':0})\n",
+        "  return map3\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "M3fR2T4IA8KR"
+      },
+      "execution_count": 61,
+      "outputs": []
+    }
+  ]
+}
