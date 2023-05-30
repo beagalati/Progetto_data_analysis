@@ -1,12 +1,13 @@
 import pandas as pd
 
 import plotly.express as px
+
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import tkinter
 import streamlit as st
-
+from PIL import Image
 import pyqrcode
 
 #file
@@ -587,7 +588,7 @@ def dispersione1(data,titolo,colore):
   ax.patch.set_linewidth(3)
   ax.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA") 
   ax.legend()
-  plt.show()
+  #plt.show()
   return fig
 
 def dispersione2(data1,titolo1,colore1,data2,titolo2,colore2):
@@ -673,10 +674,13 @@ def dispersione3(data1,titolo1,colore1,data2,titolo2,colore2,data3,titolo3,color
   return fig
  
 
-def qr_code():
-  qr=pyqrcode.create("https://it.finance.yahoo.com/")
-  qread=qr.terminal("black")
-  return qread
+# def qr_code():
+#  qr=pyqrcode.create("https://it.finance.yahoo.com/")
+#  qread=qr.terminal("black")
+ # return qread
+
+
+
 
 #creazione sito
 st.set_page_config (layout="wide")
@@ -685,6 +689,9 @@ with open('style.css') as f:
         st.title('Data Analysis')
         #Adding a sidebar to the app
         st.sidebar.title("Welcome!") 
+        st.sidebar.write("Hai dubbi sul dataset?")
+        image = Image.open('qrcode.jpg')
+        st.sidebar.image(image, caption='Scansiona questo codice ', width=100)
 #invocazioni e codice
 scelta=input("Se vuoi inserire i dati da input digita 'INPUT', se vuoi caricarli da file digita 'FILE': ")
 while scelta!="INPUT" and scelta!="FILE":
@@ -719,14 +726,15 @@ if scelta=="FILE":
         st.write(pie(dataFR1,colore1,titolo1))
         st.write(OBV(dataFR1,colore1))
         st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-        qr=qr_code()
-        st.write(print(qr))
+        
     
     else:
       print("Non hai inserito tutti i dati richiesti")
       print("Per garantire il funzionamento del programma, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
       dataFR1,colore1,titolo1=errore1()
       with st.container():
+        st.sidebar("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena.Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell'automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno")
+        st.write(titolo1)
         st.write(dataFR1)
         st.write(grafico_candele(dataFR1,titolo1,colore1))
         st.write(media_mobile1(dataFR1,colore1))
@@ -734,8 +742,7 @@ if scelta=="FILE":
         st.write(pie(dataFR1,colore1,titolo1))
         st.write(OBV(dataFR1,colore1))
         st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-        qr=qr_code()
-        st.write(print(qr))
+        
 
   elif l[0].strip()=="2":
     if len(l)==7:
@@ -767,8 +774,7 @@ if scelta=="FILE":
           st.write(pie(dataFR2,colore2,titolo2))
       st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
       st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      qr=qr_code()
-      st.write(print(qr))
+      
     
     else:
       print("Non hai inserito tutti i dati richiesti")
@@ -795,8 +801,7 @@ if scelta=="FILE":
           st.write(pie(dataFR2,colore2,titolo2))
       st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
       st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      qr=qr_code()
-      st.write(print(qr))
+      
 
   elif l[0].strip()=="3":
     if len(l)==10:
@@ -837,8 +842,7 @@ if scelta=="FILE":
           st.write(pie(dataFR3,colore3,titolo3))
       st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
       st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-      qr=qr_code()
-      st.write(print(qr))
+     
     
     else:
       print("Non hai inserito un numero compreso tra 1 e 3.")
@@ -871,8 +875,7 @@ if scelta=="FILE":
             st.write(pie(dataFR3,colore3,titolo3))
         st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
         st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        qr=qr_code()
-        st.write(print(qr))
+        
 
   else:
     print("Non hai inserito un numero compreso tra 1 e 3.")
@@ -905,8 +908,6 @@ if scelta=="FILE":
         st.write(pie(dataFR3,colore3,titolo3))
     st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
     st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    qr=qr_code()
-    st.write(print(qr))
 
 
 
@@ -919,6 +920,7 @@ elif scelta=="INPUT":
   
   if num=="1":
     dataFR1,titolo1,colore1=scelta1()
+    
     with st.container():
       st.write(dataFR1)
       st.write(grafico_candele(dataFR1,titolo1,colore1))
@@ -927,8 +929,7 @@ elif scelta=="INPUT":
       st.write(pie(dataFR1,colore1,titolo1))
       st.write(OBV(dataFR1,colore1))
       st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-      qr=qr_code()
-      st.write(print(qr))
+      
 
 
   elif num=="2":
@@ -953,8 +954,7 @@ elif scelta=="INPUT":
         st.write(pie(dataFR2,colore2,titolo2))
     st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
     st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-    qr=qr_code()
-    st.write(print(qr))
+  
 
   elif num=="3":
     dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3()
@@ -984,5 +984,3 @@ elif scelta=="INPUT":
           st.write(pie(dataFR3,colore3,titolo3))
     st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
     st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    qr=qr_code()
-    st.write(print(qr))
