@@ -1,10 +1,8 @@
 import pandas as pd
 import plotly.express as px
-
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-import tkinter
 import streamlit as st
 from PIL import Image
 
@@ -49,9 +47,9 @@ def errore3():
     return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3
   
 
-def scelta1file(nome,titolo,colore):
-  nome_tot1=nome+".csv"
-  data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+def scelta1file(dati,titolo,colore):
+
+  data1=pd.read_csv(dati,header=0,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
       
   check=True
@@ -72,13 +70,11 @@ def scelta1file(nome,titolo,colore):
     dataFR1,colore,titolo=errore1()
     return dataFR1,colore,titolo
 
-def scelta2file(nome1,titolo1,colore1,nome2,titolo2,colore):
-  nome_tot1=nome1+".csv"
-  data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+def scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore):
+  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
 
-  nome_tot2=nome2+".csv"
-  data2=pd.read_csv(nome_tot2,header=0,parse_dates=["Date"])
+  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
   dataFR2=pd.DataFrame(data2)
 
   check1=True
@@ -114,17 +110,14 @@ def scelta2file(nome1,titolo1,colore1,nome2,titolo2,colore):
     return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2
 
 
-def scelta3file(nome1,titolo1,colore1,nome2,titolo2,colore2,nome3,titolo3,colore3):
-  nome_tot1=nome1+".csv"
-  data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+def scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3):
+  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
 
-  nome_tot2=nome2+".csv"
-  data2=pd.read_csv(nome_tot2,header=0,parse_dates=["Date"])
+  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
   dataFR2=pd.DataFrame(data2)
 
-  nome_tot3=nome3+".csv"
-  data3=pd.read_csv(nome_tot3,header=0,parse_dates=["Date"])
+  data3=pd.read_csv(dati3,header=0,parse_dates=["Date"])
   dataFR3=pd.DataFrame(data3)
 
   check1=True
@@ -328,7 +321,7 @@ def grafico_candele(dati,titolo,colore):
   candela.update_layout(title=titolo.upper())
   return candela
 
-#media mobile per stimare la direzione corrente di una tendenza. Fornisce un'indicazione puù chiara della tendenza generale
+
 def media_mobile1(dati1,colore1):
   media_mobile1=dati1["Adj Close"].rolling(2).mean() #media mobile considerando due valori alla volta
   dati1["Media Mobile"]=media_mobile1
@@ -442,7 +435,6 @@ def rendimenti_percentuali3(dati1,dati2,dati3,colore1,colore2,colore3,titolo1,ti
   fig.update_layout(title="RENDIMENTO PERCENTUALE")
   return fig
 
-#L'indicatore tecnico On Balance Volume (OBV) è un indicatore di analisi tecnica che mette in relazione il volume con le variazioni di prezzo.il concetto di questo indicatore si basa sull'idea che quando c'è un volume di trading, il prezzo prima o poi ne risentirà. Il concetto di questo indicatore si basa sull'idea che quando c'è un volume di trading, il prezzo prima o poi ne risentirà. 
 #If the close is above the prior close then: Current OBC = Previous OBC + Current Volume, If the closing price is below the prior close price then: Current OBV = Previous OBV - Current Volume, If the closing prices equals the prior close price then: Current OBV = Previous OBV (no change)
 def OBV(dati1,colore1):
   OBV=[0]
@@ -570,7 +562,6 @@ def OBV3(dati1,dati2,dati3,colore1,colore2,colore3,titolo1,titolo2,titolo3):
   bar.update_layout(title="OBV",barmode="group")  
   return bar 
 
-#La volatilità è la misura della quantità e la velocità con cui il prezzo si muove verso l'alto e verso il basso,le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato
 def dispersione1(data,titolo,colore):
   close_mean=data["Close"].mean()
   nome="MEDIA CLOSE"+" "+titolo.upper()
@@ -584,7 +575,7 @@ def dispersione1(data,titolo,colore):
   ax.set_xticklabels(data["Date"],rotation=90)
   ax.patch.set_edgecolor("k")
   ax.patch.set_linewidth(3)
-  ax.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA") 
+  ax.set_title("VOLATILITÀ DEL PREZZO DI CHIUSURA") 
   ax.legend()
   #plt.show()
   return fig
@@ -618,7 +609,7 @@ def dispersione2(data1,titolo1,colore1,data2,titolo2,colore2):
   ax2.patch.set_linewidth(3)
   ax2.legend()
 
-  ax1.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA")  
+  ax1.set_title("VOLATILITÀ DEL PREZZO DI CHIUSURA") 
   plt.tight_layout()
   plt.show()
   return fig
@@ -666,7 +657,7 @@ def dispersione3(data1,titolo1,colore1,data2,titolo2,colore2,data3,titolo3,color
   ax3.patch.set_linewidth(3)
   ax3.legend()
 
-  ax1.set_title("DEVIAZIONI PREZZI DI CHIUSURA DALLA MEDIA DI CHIUSURA") 
+  ax1.set_title("VOLATILITÀ DEL PREZZO DI CHIUSURA")  
   plt.tight_layout()
   plt.show()
   return fig
@@ -688,416 +679,63 @@ def mappa3():
   return map3
  
 
-# def qr_code():
-#  qr=pyqrcode.create("https://it.finance.yahoo.com/")
-#  qread=qr.terminal("black")
- # return qread
+#def qr_code():
+  #qr=pyqrcode.create("https://it.finance.yahoo.com/")
+  #qread=qr.terminal("black")
+  #return qread
 
 
 
-#creazione sito
+#invocazioni e codice
 st.set_page_config (layout="wide")
 with open('style.css') as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-        st.title('Data Analysis')
+  st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+  st.title('Data Analysis')
         #Adding a sidebar to the app
-        st.sidebar.title("Welcome!")   
-        st.sidebar.write("Hai dubbi?")
-        image = Image.open('qrcode.jpg')
-        st.sidebar.image(image, caption='Scansiona questo codice ', width=100)   
-  
-#invocazioni e codice
-scelta=input("Se vuoi inserire i dati da input digita 'INPUT', se vuoi caricarli da file digita 'FILE': ")
-while scelta!="INPUT" and scelta!="FILE":
-  print("Non hai inserito una scelta tra quelle indicate. Riprova!")
-  scelta=input("Se vuoi inserire i dati da input digita 'INPUT', se vuoi caricarli da file digita 'FILE': ")
-
-
-if scelta=="FILE":
-  print("Inserisci i seguenti valori, ricordandoti di seguire il seguente ordine di impostazione e di separare i valori tramite virgola, senza lasciare spazi vuoti (ATTENZIONE: le virgole vanno utilizzate solo come delimitatori tra un valore e l'altro): ")
-  print("numero titoli da confrontare (minimo 1, massimo 3), nome del file csv su cui sono riportati i dati, nome del titolo, colore scelto per quel titolo tra le seguenti opzioni red, brown, green, olive, limegreen, blue, navy, darkcyan, lightsteelblue, pink, magenta, darkviolet.") 
-  print("Attenzione: il numero di titoli da confrontare va inserito una sola volta all’inizio!")
-  start=input("Hai inserito tutti i valori sul file 'INPUT' in allegato? (Rispondi 'SI' in caso affermativo) ")
-  while start!="SI":
-    print("Hai fornito una risposta diversa dal 'SI'. Dopo aver inserito i valori, rispondi affermativamente.")
-    start=input("Hai inserito tutti i valori sul file 'INPUT' in allegato? (Rispondi 'SI' in caso affermativo) ")
-
-  with open("INPUT.txt","r") as input:
-    l=input.readline()
-    l=l.split(",")
-
-  if l[0].strip()=="1":
-    if len(l)==4:
-      nome=l[1]
-      titolo=l[2]
-      colore=l[3].strip()
-      dataFR1,colore1,titolo1=scelta1file(nome,titolo,colore)
-      with st.container():
-        st.write(dataFR1)
-        st.write(grafico_candele(dataFR1,titolo1,colore1))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-        st.write(media_mobile1(dataFR1,colore1))
-        st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-        st.write(pie(dataFR1,colore1,titolo1))
-        st.pyplot(dispersione1(dataFR1,titolo1,colore1))
-        st.write(OBV(dataFR1,colore1))
-        st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-        st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-        st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+  st.sidebar.title("Welcome!")   
+  st.sidebar.write("WELCOME TO DATA ANALYSIS, il programma il cui obiettivo è quello di fornire un'analisi dei dati forniti dall'utente.")
+  st.sidebar.write(" ")
+  st.sidebar.write(" ")
+  st.sidebar.write("ATTENZIONE: ricorda devi inserire i dati riguardanti OPEN, CLOSE, ADJ CLOSE, HIGH, LOW, VOLUME, solo così l'analisi sarà il quanto più esaustiva possibile.")
+  st.sidebar.write("SUGGERIMENTO: il consiglio è di prendere i dati storici da Yahoo Finance.")
+  st.sidebar.write(" ")
+  st.sidebar.write(" ")
+  st.sidebar.write("Hai dubbi sul dataset oppure vuoi scaricarne dei nuovi?")
+  image = Image.open("qrcode.jpg")
+  st.sidebar.image(image, caption="Scansiona questo codice per essere reindirizzato a Yahoo Finance", width=100)  
+  st.header("INPUT")
+  scelta = st.selectbox("Se vuoi inserire i dati da input digita 'INPUT', se vuoi caricarli da file digita 'FILE': ", options=["INPUT","FILE"])
+  if scelta=="FILE":
+    st.write("Prima di iniziare, alcune informazioni.")
+    st.write("Nel file 'INPUT' inserisci i seguenti valori, ricordandoti di seguire il seguente ordine di impostazione e di separare i valori tramite virgola, senza lasciare spazi vuoti (ATTENZIONE: le virgole vanno utilizzate solo come delimitatori tra un valore e l'altro): numero titoli da confrontare (minimo 1, massimo 3), nome del titolo, colore scelto per quel titolo tra le seguenti opzioni red, brown, green, olive, limegreen, blue, navy, darkcyan, lightsteelblue, pink, magenta, darkviolet.") 
+    st.write("Attenzione: il numero di titoli da confrontare va inserito una sola volta all'inizio!")
+    with st.container():
+      st.write("Per iniziare l'analisi, scarica il/i dataset e compila il file 'INPUT'. ")
+      
+      inp= st.file_uploader("Carica il file 'INPUT' compilato")
+      with open("INPUT.txt","r") as input:
+        l=input.readline()
+        l=l.split(",")
         
-    else:
-      print("Non hai inserito tutti i dati richiesti.")
-      print("Per garantire il funzionamento del programma, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
-      dataFR1,colore1,titolo1=errore1()
-      #menu a tendina info
-    
-      with st.container():
-        st.write(titolo1)
-        image= Image.open('ferrari_logo.png')
-        st.image(image, width= 150)
-        st.write(dataFR1)
-        st.write(mappa1())
-        st.write(grafico_candele(dataFR1,titolo1,colore1))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-        st.write(media_mobile1(dataFR1,colore1))
-        st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-        st.pyplot(dispersione1(dataFR1,titolo1,colore1))
-        st.write(pie(dataFR1,colore1,titolo1))
-        st.write(OBV(dataFR1,colore1))
-        st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-        st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-        st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-        
-
-  elif l[0].strip()=="2":
-    if len(l)==7:
-      nome1=l[1]
-      titolo1=l[2]
-      colore1=l[3].strip()
-      nome2=l[4]
-      titolo2=l[5]
-      colore2=l[6].strip()
-      dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(nome1,titolo1,colore1,nome2,titolo2,colore2)
-      
-      with st.container():
-        col1, col2=st.columns(2)
-        with col1:
-          st.write(titolo1)
-          st.write(dataFR1)
-        with col2:
-          st.write(titolo2)
-          st.write(dataFR2)
-      st.write(grafico_candele(dataFR1,titolo1,colore1))
-      st.write(grafico_candele(dataFR2,titolo2,colore2))
-      st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-      st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-      st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
-      with st.container():
-        col1,col2=st.columns(2)
-        with col1:
-          st.write(pie(dataFR1,colore1,titolo1))
-        with col2:
-          st.write(pie(dataFR2,colore2,titolo2))
-      st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-      st.write(rendimenti_percentuali3(dataFR2, colore2, titolo2
-                                       ))
-      st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-      
-      
-    
-    else:
-      print("Non hai inserito tutti i dati richiesti.")
-      print("Per garantire il funzionamento del programma, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
-      dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
-
-      with st.container():
-        col1, col2=st.columns(2)
-        with col1:
-          image= Image.open('ferrari_logo.png')
-          st.image(image, width= 150)
-        with col2:
-          image=Image.open('Ford_logo.png')
-          st.image(image, width=150)
-        col1, col2=st.columns(2)
-        with col1:
-          st.write(titolo1)
-          st.write(dataFR1)
-        with col2:
-          st.write(titolo2)
-          st.write(dataFR2)
-      st.write(mappa2())
-      st.write(grafico_candele(dataFR1,titolo1,colore1))
-      st.write(grafico_candele(dataFR2,titolo2,colore2))
-      st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-      st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-      st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
-      with st.container():
-        left_colum, right_column=st.columns(2)
-        with left_colum:
-          st.write(pie(dataFR1,colore1,titolo1))
-        with right_column:
-          st.write(pie(dataFR2,colore2,titolo2))
-      st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-      st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-      st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-      
-      
-
-  elif l[0].strip()=="3":
-    if len(l)==10:
-      nome1=l[1]
-      titolo1=l[2]
-      colore1=l[3].strip()
-      nome2=l[4]
-      titolo2=l[5]
-      colore2=l[6].strip()
-      nome3=l[7]
-      titolo3=l[8]
-      colore3=l[9].strip()
-      dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(nome1,titolo1,colore1,nome2,titolo2,colore2,nome3,titolo3,colore3)
-      
-      with st.container():
-        col1, col2, col3= st.columns(3)
-        with col1:
-          st.write(titolo1)
-          st.write(dataFR1)
-        with col2:
-          st.write(titolo2)
-          st.write(dataFR2)
-        with col3:
-          st.write(titolo3)
-          st.write(dataFR3)
-      st.write(grafico_candele(dataFR1,titolo1,colore1))
-      st.write(grafico_candele(dataFR2,titolo2,colore2))
-      st.write(grafico_candele(dataFR3,titolo3,colore3))
-      st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-      st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-      st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-      st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-      with st.container():
-        col1, col2=st.columns(2)
-        with col1:
-          st.write(pie(dataFR1,colore1,titolo1))
-        with col2:
-          st.write(pie(dataFR2,colore2,titolo2))
-      with st.container():
-        col1, col2, col3=st.columns(3)
-        with col1:
-          st.write(" ")
-        with col2:
-          st.write(pie(dataFR3,colore3,titolo3))
-        with col3:
-          st.write(" ")
-      st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-      st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-      st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-      st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-      
-     
-    
-    else:
-      print("Non hai inserito tutti i dati richiesti.")
-      print("Per garantire il funzionamento del programma abbiamo dato di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
-      dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
-      
-      with st.container():
-        col1, col2, col3=st.columns(3)
-        with col1:
-          image= Image.open('ferrari_logo.png')
-          st.image(image, width= 150)
-        with col2:
-          image=Image.open('Ford_logo.png')
-          st.image(image, width=150)
-        with col3:
-          image= Image.open('alfaromeo_logo.png')
-          st.image(image, width=150)
-        col1, col2, col3=st.columns(3)
-        with col1:
-          st.write(titolo1)
-          st.write(dataFR1)
-        with col2:
-          st.write(titolo2)
-          st.write(dataFR2)
-        with col3:
-          st.write(titolo3)
-          st.write(dataFR3)
-        st.write(mappa3())
-        st.write(grafico_candele(dataFR1,titolo1,colore1))
-        st.write(grafico_candele(dataFR2,titolo2,colore2))
-        st.write(grafico_candele(dataFR3,titolo3,colore3))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-        st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-        st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-        with st.container():
-          col1, col2= st.columns(2)
-          with col1:
+      if l[0].strip()=="1":
+        if len(l)==3:
+          dati= st.file_uploader("Carica il dataset")
+          titolo=l[1]
+          colore=l[2].strip()
+          dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
+          with st.container():
+            st.write(dataFR1)
+            st.write(grafico_candele(dataFR1,titolo1,colore1))
+            st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+            st.write(media_mobile1(dataFR1,colore1))
+            st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
             st.write(pie(dataFR1,colore1,titolo1))
-          with col2:
-            st.write(pie(dataFR2,colore2,titolo2))
-        with st.container():
-          col1, col2, col3=st.columns(3)
-          with col1:
-            st.write(" ")
-          with col2:
-            st.write(pie(dataFR3,colore3,titolo3))
-          with col3:
-            st.write(" ")
-        st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-        st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-        
+            st.pyplot(dispersione1(dataFR1,titolo1,colore1))
+            st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+            st.write(OBV(dataFR1,colore1))
+            st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+            st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
+            st.write("Il rendimento di un'azione indica il guadagno o la perdita prodotti da un investimento in un'azione. ")
+      
 
-  else:
-    print("Non hai inserito un numero compreso tra 1 e 3.")
-    print("Per garantire il funzionamento del programma sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
-    dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
-    
-    with st.container():
-      col1, col2, col3=st.columns(3)
-      with col1:
-        image= Image.open('ferrari_logo.png')
-        st.image(image, width= 150)
-      with col2:
-        image=Image.open('Ford_logo.png')
-        st.image(image, width=150)
-      with col3:
-        image= Image.open('alfaromeo_logo.png')
-        st.image(image, width=150)
-      col1, col2, col3=st.columns(3)
-      with col1:
-        st.write(titolo1)
-        st.write(dataFR1)
-      with col2:
-        st.write(titolo2)
-        st.write(dataFR2)
-      with col3:
-        st.write(titolo3)
-        st.write(dataFR3)
-    st.write(mappa3())
-    st.write(grafico_candele(dataFR1,titolo1,colore1))
-    st.write(grafico_candele(dataFR2,titolo2,colore2))
-    st.write(grafico_candele(dataFR3,titolo3,colore3))
-    st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-    st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-    st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-    with st.container():
-      col1, col2=st.columns(2)
-      with col1:
-        st.write(pie(dataFR1,colore1,titolo1))
-      with col2:
-        st.write(pie(dataFR2,colore2,titolo2))
-    with st.container():
-      col1, col2, col3=st.columns(3)
-      with col1:
-        st.write(" ")
-      with col2:
-        st.write(pie(dataFR3,colore3,titolo3))
-      with col3:
-        st.write(" ")
-    st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-    st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-    
-
-
-
-elif scelta=="INPUT":
-
-  num=input("Inserisci il numero di titoli che vuoi confrontare (minimo 1, massimo 3): ")
-  while num!="1" and num!="2" and num!="3":
-    print("Inserimento non coerente. Ricorda devi inserire un valore compreso tra 1 e 3.")
-    num=input("Inserisci il numero di titoli che vuoi confrontare: ")
-  
-  if num=="1":
-    dataFR1,titolo1,colore1=scelta1()
-    
-    with st.container():
-      st.write(dataFR1)
-      st.write(grafico_candele(dataFR1,titolo1,colore1))
-      st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-      st.write(media_mobile1(dataFR1,colore1))
-      st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-      st.pyplot(dispersione1(dataFR1,titolo1,colore1))
-      st.write(pie(dataFR1,colore1,titolo1))
-      st.write(OBV(dataFR1,colore1))
-      st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-      st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-      st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-
-
-  elif num=="2":
-    dataFR1,dataFR2, titolo1, titolo2, colore1, colore2= scelta2()
-    with st.container():
-      col1, col2=st.columns(2)
-      with col1:
-        st.write(titolo1)
-        st.write(dataFR1)
-      with col2:
-        st.write(titolo2)
-        st.write(dataFR2)
-    st.write(grafico_candele(dataFR1,titolo1,colore1))
-    st.write(grafico_candele(dataFR2,titolo2,colore2))
-    st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-    st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-    st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-    st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
-    with st.container():
-      col1, col2=st.columns(2)
-      with col1:
-        st.write(pie(dataFR1,colore1,titolo1))
-      with col2:
-        st.write(pie(dataFR2,colore2,titolo2))
-    st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-    st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-    st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-    st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-    
-  
-
-  elif num=="3":
-    dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3()
-    with st.container():
-      col1, col2, col3=st.columns(3)
-      with col1:
-        st.write(titolo1)
-        st.write(dataFR1)
-      with col2:
-        st.write(titolo2)
-        st.write(dataFR2)
-      with col3:
-        st.write(titolo3)
-        st.write(dataFR3)
-    st.write(grafico_candele(dataFR1,titolo1,colore1))
-    st.write(grafico_candele(dataFR2,titolo2,colore2))
-    st.write(grafico_candele(dataFR3,titolo3,colore3))
-    st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-    st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-    st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-    with st.container():
-      col1, col2= st.columns(2)
-      with col1:
-        st.write(pie(dataFR1,colore1,titolo1))
-      with col2:
-        st.write(pie(dataFR2,colore2,titolo2))
-    with st.container():
-        col1, col2, col3=st.columns(3)
-        with col1:
-          st.write(" ")
-        with col2:
-          st.write(pie(dataFR3,colore3,titolo3))
-        with col3:
-          st.write(" ")
-    st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-    st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-    st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
     
