@@ -701,7 +701,10 @@ with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.title('Data Analysis')
         #Adding a sidebar to the app
-        st.sidebar.title("Welcome!")      
+        st.sidebar.title("Welcome!")   
+        st.sidebar.write("Hai dubbi?")
+        image = Image.open('qrcode.jpg')
+        st.sidebar.image(image, caption='Scansiona questo codice ', width=100)   
   
 #invocazioni e codice
 scelta=input("Se vuoi inserire i dati da input digita 'INPUT', se vuoi caricarli da file digita 'FILE': ")
