@@ -8,39 +8,42 @@ from PIL import Image
 
 #file
 def errore1():
+      st.sidebar.write("Poiché non sono stati inseriti i valori corretti, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
       nome_tot1="FERRARI.csv"
-      data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+      data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
       dataFR1=pd.DataFrame(data1)
       colore="red"
       titolo="FERRARI"
       return dataFR1,colore,titolo
 
 def errore2():
+    st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
     nome_tot1="FERRARI.csv"
-    data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+    data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
     dataFR1=pd.DataFrame(data1)
     colore1="red"
     titolo1="FERRARI"
     nome_tot2="FORD.csv"
-    data2=pd.read_csv(nome_tot2,header=0,parse_dates=["Date"])
+    data2=pd.read_csv(nome_tot2,parse_dates=["Date"])
     dataFR2=pd.DataFrame(data2)
     colore2="blue"
     titolo2="FORD"
     return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2
 
 def errore3():
+    st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
     nome_tot1="FERRARI.csv"
-    data1=pd.read_csv(nome_tot1,header=0,parse_dates=["Date"])
+    data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
     dataFR1=pd.DataFrame(data1)
     colore1="red"
     titolo1="FERRARI"
     nome_tot2="FORD.csv"
-    data2=pd.read_csv(nome_tot2,header=0,parse_dates=["Date"])
+    data2=pd.read_csv(nome_tot2,parse_dates=["Date"])
     dataFR2=pd.DataFrame(data2)
     colore2="blue"
     titolo2="FORD"
     nome_tot3="ALFA_ROMEO.csv"
-    data3=pd.read_csv(nome_tot3,header=0,parse_dates=["Date"])
+    data3=pd.read_csv(nome_tot3,parse_dates=["Date"])
     dataFR3=pd.DataFrame(data3)
     colore3="darkviolet"
     titolo3="ALFA ROMEO"
@@ -48,7 +51,7 @@ def errore3():
   
 
 def scelta1file(dati,titolo,colore):
-  data1=pd.read_csv(dati,header=0,parse_dates=["Date"])
+  data1=pd.read_csv(dati,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
       
   check=True
@@ -56,24 +59,19 @@ def scelta1file(dati,titolo,colore):
 
   if list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
     check=False
-    print("Non sono presenti tutti i valori richiesti per l'analisi dei dati nel file.")
+    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi dei dati nel file.")
 
   if colore not in ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori=False
-    print("Non hai inserito un colore tra quelli selezionati.")
+    st.sidebar.write("Non hai inserito un colore tra quelli selezionati.")
 
-  if colori==True and check==True:
-    return dataFR1,colore,titolo
-  else:
-    print("Poiché non sono stati inseriti i valori corretti, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
-    dataFR1,colore,titolo=errore1()
-    return dataFR1,colore,titolo
+  return check,colori,dataFR1,colore,titolo
 
-def scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore):
-  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
+def scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2):
+  data1=pd.read_csv(dati1,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
 
-  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
+  data2=pd.read_csv(dati2,parse_dates=["Date"])
   dataFR2=pd.DataFrame(data2)
 
   check1=True
@@ -85,38 +83,33 @@ def scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore):
    #sono presenti lo stesso numero di dati (equals)
   if list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
     check1=False
-    print("Non sono presenti tutti i valori richiesti per l'analisi nel primo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
+    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi nel primo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
   if list(dataFR2.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
     check2=False
-    print("Non sono presenti tutti i valori richiesti per l'analisi nel secondo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
+    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi nel secondo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
 
   if dataFR1["Date"].equals(dataFR2["Date"])=="False":
     equal=False
-    print("Non sono presenti lo stesso numero di valori nei due file")
+    st.sidebar.write("Non sono presenti lo stesso numero di valori nei due file")
   
   if colore1 not in ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori1=False
-    print("Il primo colore non è tra quelli selezionati." )
+    st.sidebar.write("Il primo colore non è tra quelli selezionati." )
   if colore2 not in  ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori2=False
-    print("Il secondo colore non è tra quelli selezionati." )
+    st.sidebar.write("Il secondo colore non è tra quelli selezionati." )
   
-  if check1==True and check2==True and equal==True and colori1==True and colori2==True:
-    return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2 
-  else:
-    print("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
-    dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
-    return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2
+  return check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2 
 
 
 def scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3):
-  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
+  data1=pd.read_csv(dati1,parse_dates=["Date"])
   dataFR1=pd.DataFrame(data1)
 
-  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
+  data2=pd.read_csv(dati2,parse_dates=["Date"])
   dataFR2=pd.DataFrame(data2)
 
-  data3=pd.read_csv(dati3,header=0,parse_dates=["Date"])
+  data3=pd.read_csv(dati3,parse_dates=["Date"])
   dataFR3=pd.DataFrame(data3)
 
   check1=True
@@ -131,54 +124,49 @@ def scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore
 
   if list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
     check1==False
-    print("Non sono presenti tutti i valori richiesti per l'analisi nel primo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
+    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi nel primo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
   if list(dataFR2.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
     check2==False
-    print("Non sono presenti tutti i valori richiesti per l'analisi nel secondo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
+    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi nel secondo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
   if list(dataFR3.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
    check3==False
-   print("Non sono presenti tutti i valori richiesti per l'analisi nel terzo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
+   st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi nel terzo file. Ricorda devono essere presenti i valori relativi a 'Date,Open,High,Low,Clos,Adj Close,Volume'")
 
   if dataFR1["Date"].equals(dataFR2["Date"])=="False":
     equal1=False
-    print("Non sono presenti lo stesso numero di valori nei primi due file")
+    st.sidebar.write("Non sono presenti lo stesso numero di valori nei primi due file")
   if dataFR2["Date"].equals(dataFR3["Date"])=="False":
     equal2=False
-    print("Non sono presenti lo stesso numero di valori negli ultimi due file")
+    st.sidebar.write("Non sono presenti lo stesso numero di valori negli ultimi due file")
   if dataFR1["Date"].equals(dataFR3["Date"])=="False":
     equal3=False
-    print("Non sono presenti lo stesso numero di valori nel primo e nel terzo file")
+    st.sidebar.write("Non sono presenti lo stesso numero di valori nel primo e nel terzo file")
   
   if colore1 not in ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori1=False
-    print("Il primo colore non è tra quelli selezionati." )
+    st.sidebar.write("Il primo colore non è tra quelli selezionati." )
   if colore2 not in ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori2=False
-    print("Il secondo colore non è tra quelli selezionati." )
+    st.sidebar.write("Il secondo colore non è tra quelli selezionati." )
   if colore3 not in ["red","brown","green","olive","limegreen","blue","darkcyan","lightsteelblue","pink","magenta","darkviolet"]:
     colori3=False
-    print("Il terzo colore non è tra quelli selezionati." )
+    st.sidebar.write("Il terzo colore non è tra quelli selezionati." )
  
-  if check1==True and check2==True and check3==True and equal1==True and equal2==True and equal3==True and colori1==True and colori2==True and colori3==True:
-    return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3
-  else:
-    print("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
-    dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
-    return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3
+  return check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3
   
  
   
 #input
 def scelta1(dati1):
-  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-  dataFR1=pd.DataFrame(data1)
-  while list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
-    st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi. Riprova inserendo questa volta i dati corretti!")
-    st.sidebar.subheader("CARICAMENTO DATASET")
-    dati1=st.sidebar.file_uploader("Carica il dataset")
-    if dati1 is not None:
-        data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-        dataFR1=pd.DataFrame(data1)
+  condizione=True
+  while condizione:
+    data1=pd.read_csv(dati1,parse_dates=["Date"])
+    dataFR1=pd.DataFrame(data1)
+    if list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
+      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi. Riprova, eliminando il file caricato e inserendo questa volta quello contenente i dati corretti!")
+    else:
+      condizione=False
+
   
   st.sidebar.subheader("NOME TITOLO")
   titolo1=st.sidebar.text_input("Inserisci il nome del titolo di cui sono stati appena inseriti i dati: ")
@@ -189,27 +177,17 @@ def scelta1(dati1):
   return dataFR1,titolo1,colore1
 
 def scelta2(dati1,dati2):
-  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-  dataFR1=pd.DataFrame(data1)
-
-  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
-  dataFR2=pd.DataFrame(data2)
-  
   condizione=True
   while condizione:
+    data1=pd.read_csv(dati1,parse_dates=["Date"])
+    dataFR1=pd.DataFrame(data1)
+    data2=pd.read_csv(dati2,parse_dates=["Date"])
+    dataFR2=pd.DataFrame(data2)
     if dataFR1["Date"].equals(dataFR2["Date"]) and list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
       condizione=False
     else:
-      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titolo. Riprova inserendo questa volta i dati corretti!")
-      st.sidebar.subheader("CARICAMENTO DATASET")
-      dati1=st.sidebar.file_uploader("Carica il primo dataset")
-      dati2=st.sidebar.file_uploader("Carica il secondo dataset")
-      if dati1 is not None and dati2 is not None:
-        data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-        dataFR1=pd.DataFrame(data1)
-        data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
-        dataFR2=pd.DataFrame(data2)      
-  
+      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titoli. Riprova, eliminando i file caricati e inserendo questa volta quelli contenenti i dati corretti!")
+
   st.sidebar.subheader("NOMI TITOLI")
   titolo1=st.sidebar.text_input("Inserisci il nome del primo titolo di cui sono stati appena inseriti i dati: ")
   titolo2=st.sidebar.text_input("Inserisci il nome del secondo titolo di cui sono stati appena inseriti i dati: ")
@@ -221,32 +199,19 @@ def scelta2(dati1,dati2):
   return dataFR1,dataFR2,titolo1,titolo2,colore1,colore2
 
 def scelta3(dati1,dati2,dati3):
-  data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-  dataFR1=pd.DataFrame(data1)
-
-  data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
-  dataFR2=pd.DataFrame(data2)
-  
-  data3=pd.read_csv(dati3,header=0,parse_dates=["Date"])
-  dataFR3=pd.DataFrame(data3)
-  
   condizione=True
   while condizione:
+    data1=pd.read_csv(dati1,parse_dates=["Date"])
+    dataFR1=pd.DataFrame(data1)
+    data2=pd.read_csv(dati2,parse_dates=["Date"])
+    dataFR2=pd.DataFrame(data2)
+    data3=pd.read_csv(dati3,parse_dates=["Date"])
+    dataFR3=pd.DataFrame(data3)
     if dataFR1["Date"].equals(dataFR2["Date"]) and dataFR2["Date"].equals(dataFR3["Date"]) and list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
       condizione=False
     else:
-      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titolo.Riprova inserendo questa volta i dati corretti!")
-      st.sidebar.subheader("CARICAMENTO DATASET")
-      dati1=st.sidebar.file_uploader("Carica il primo dataset")
-      dati2=st.sidebar.file_uploader("Carica il secondo dataset")
-      dati3=st.sidebar.file_uploader("Carica il terzo dataset")
-      if dati1 is not None and dati2 is not None and dati3 is not None:
-        data1=pd.read_csv(dati1,header=0,parse_dates=["Date"])
-        dataFR1=pd.DataFrame(data1)
-        data2=pd.read_csv(dati2,header=0,parse_dates=["Date"])
-        dataFR2=pd.DataFrame(data2) 
-        data3=pd.read_csv(dati3,header=0,parse_dates=["Date"])
-        dataFR3=pd.DataFrame(data3)     
+      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titoli. Riprova, eliminando i file caricati e inserendo questa volta quelli contenenti i dati corretti!")
+  
   
   st.sidebar.subheader("NOMI TITOLI")
   titolo1=st.sidebar.text_input("Inserisci il nome del primo titolo di cui sono stati appena inseriti i dati: ")
@@ -289,7 +254,7 @@ def media_mobile1(dati1,colore1):
   media_mobile1=dati1["Adj Close"].rolling(2).mean() #media mobile considerando due valori alla volta
   dati1["Media Mobile"]=media_mobile1
 
-  fig = px.line(dati1, x="Date",y="Media Mobile",title="MEDIA MOBILE", labels={"x":"Data", "y":"Media Mobile"},color_discrete_sequence=[colore1])
+  fig = px.line(dati1, x="Date",y="Media Mobile",title="MEDIA MOBILE DEL PREZZO DI CHIUSURA AGGIUSTATO", labels={"x":"Data", "y":"Media Mobile"},color_discrete_sequence=[colore1])
   return fig
 
 def media_mobile2(dati1,dati2,colore1,colore2,titolo1,titolo2):
@@ -300,7 +265,7 @@ def media_mobile2(dati1,dati2,colore1,colore2,titolo1,titolo2):
   dati1[nom_tot1]=media_mobile1
   dati1[nom_tot2]=media_mobile2
 
-  fig = px.line(dati1, x="Date",y=[nom_tot1,nom_tot2],title="MEDIA MOBILE", labels={"x":"Data", "y":[nom_tot1,nom_tot2]},color_discrete_sequence=[colore1,colore2])
+  fig = px.line(dati1, x="Date",y=[nom_tot1,nom_tot2],title="MEDIA MOBILE DEL PREZZO DI CHIUSURA AGGIUSTATO", labels={"x":"Data", "y":[nom_tot1,nom_tot2]},color_discrete_sequence=[colore1,colore2])
   return fig
 
 def media_mobile3(dati1,dati2,dati3,colore1,colore2,colore3,titolo1,titolo2,titolo3):
@@ -314,7 +279,7 @@ def media_mobile3(dati1,dati2,dati3,colore1,colore2,colore3,titolo1,titolo2,tito
   dati1[nom_tot2]=media_mobile2
   dati1[nom_tot3]=media_mobile3
 
-  fig = px.line(dati1, x="Date",y=[nom_tot1,nom_tot2,nom_tot3],title="MEDIA MOBILE", labels={"x":"Data", "y":[nom_tot1,nom_tot2,nom_tot3]},color_discrete_sequence=[colore1,colore2,colore3])
+  fig = px.line(dati1, x="Date",y=[nom_tot1,nom_tot2,nom_tot3],title="MEDIA MOBILE DEL PREZZO DI CHIUSURA AGGIUSTATO", labels={"x":"Data", "y":[nom_tot1,nom_tot2,nom_tot3]},color_discrete_sequence=[colore1,colore2,colore3])
   return fig
 
 
@@ -640,12 +605,6 @@ def mappa3():
   map3 = go.Figure(go.Scattermapbox(mode = "markers",lon = ["10.866667","-83.1763","9.1859243"], lat = ["44.53333","42.3223","45.4654219"],text=["Maranello (FERRARI)","Deaborn (FORD)","Milano (ALFA ROMEO)"],marker={"size": 15,"opacity":0.5, "color": ["red","blue","darkviolet"]}))
   map3.update_layout(mapbox = {'style': "stamen-terrain"}, margin = {'l':0, 'r':0, 'b':0, 't':0})
   return map3
- 
-
-#def qr_code():
-  #qr=pyqrcode.create("https://it.finance.yahoo.com/")
-  #qread=qr.terminal("black")
-  #return qread
 
 
 
@@ -697,28 +656,54 @@ with open('style.css') as f:
           if dati is not None:
             titolo=l[1]
             colore=l[2].strip()
-            dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
-            st.write(dataFR1)
-            st.write(grafico_candele(dataFR1,titolo1,colore1))
-            st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-            st.divider()
-            st.write(media_mobile1(dataFR1,colore1))
-            st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-            st.divider()
-            st.write(pie(dataFR1,colore1,titolo1))
-            st.divider()
-            st.pyplot(dispersione1(dataFR1,titolo1,colore1))
-            st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-            st.divider()
-            st.write(OBV(dataFR1,colore1))             
-            st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-            st.divider()
-            st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-            st.write("Il rendimento di un'azione indica il guadagno o la perdita prodotti da un investimento in un'azione. ")  
+            check,colori,dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
+            if check==True and colori==True:
+              st.write(dataFR1)
+              st.write(grafico_candele(dataFR1,titolo1,colore1))
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.divider()
+              st.write(media_mobile1(dataFR1,colore1))
+              st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+              st.divider()
+              st.write(pie(dataFR1,colore1,titolo1))
+              st.divider()
+              st.pyplot(dispersione1(dataFR1,titolo1,colore1))
+              st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+              st.divider()
+              st.write(OBV(dataFR1,colore1))             
+              st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+              st.divider()
+              st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
+              st.write("Il rendimento di un'azione indica il guadagno o la perdita prodotti da un investimento in un'azione. ")  
+            else:
+              dataFR1,colore1,titolo1=errore1()
+              st.write(titolo1)
+              image= Image.open('ferrari_logo.png')
+              st.image(image, width= 150)
+              st.write(dataFR1)
+              st.divider()
+              st.write(mappa1())
+              st.divider()
+              st.write(grafico_candele(dataFR1,titolo1,colore1))
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.divider()
+              st.write(media_mobile1(dataFR1,colore1))
+              st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+              st.divider()
+              st.write(pie(dataFR1,colore1,titolo1))
+              st.divider()
+              st.pyplot(dispersione1(dataFR1,titolo1,colore1))
+              st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+              st.divider()
+              st.write(OBV(dataFR1,colore1))             
+              st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+              st.divider()
+              st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
+              st.write("Il rendimento di un'azione indica il guadagno o la perdita prodotti da un investimento in un'azione. ")                
+              
         else:
           st.sidebar.subheader("ERRORE!")
           st.sidebar.write("Non hai inserito tutti i dati richiesti.")
-          st.sidebar.write("Per garantire il funzionamento del programma, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
           dataFR1,colore1,titolo1=errore1()
           st.write(titolo1)
           image= Image.open('ferrari_logo.png')
@@ -756,43 +741,87 @@ with open('style.css') as f:
           st.sidebar.subheader("CARICAMENTO SECONDO DATASET")          
           dati2= st.sidebar.file_uploader("Carica il secondo dataset")
           if dati1 is not None and dati2 is not None:
-            dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
-            with st.container():
-              col1, col2=st.columns(2)
-              with col1:
-                st.write(titolo1)
-                st.write(dataFR1)
-              with col2:
-                st.write(titolo2)
-                st.write(dataFR2)
-            st.divider()
-            st.write(grafico_candele(dataFR1,titolo1,colore1))
-            st.write(grafico_candele(dataFR2,titolo2,colore2))
-            st.divider()
-            st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-            st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-            st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-            st.divider()
-            st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
-            st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-            st.divider()
-            with st.container():
-              col1,col2=st.columns(2)
-              with col1:
-                st.write(pie(dataFR1,colore1,titolo1))
-              with col2:
-                st.write(pie(dataFR2,colore2,titolo2))
-            st.divider()
-            st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
-            st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-            st.divider()
-            st.write(rendimenti_percentuali3(dataFR2, colore2, titolo2))
-            st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+            check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
+            if check1==True and check2==True and equal==True and colori1==True and colori2==True:
+              with st.container():
+                col1, col2=st.columns(2)
+                with col1:
+                  st.write(titolo1)
+                  st.write(dataFR1)
+                with col2:
+                  st.write(titolo2)
+                  st.write(dataFR2)
+              st.divider()
+              st.write(grafico_candele(dataFR1,titolo1,colore1))
+              st.write(grafico_candele(dataFR2,titolo2,colore2))
+              st.divider()
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
+              st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+              st.divider()
+              st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
+              st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+              st.divider()
+              with st.container():
+                col1,col2=st.columns(2)
+                with col1:
+                  st.write(pie(dataFR1,colore1,titolo1))
+                with col2:
+                  st.write(pie(dataFR2,colore2,titolo2))
+              st.divider()
+              st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
+              st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+              st.divider()
+              st.write(rendimenti_percentuali3(dataFR2, colore2, titolo2))
+              st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+            else:
+              dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
+              with st.container():
+                col1, col2=st.columns(2)
+                with col1:
+                  image= Image.open('ferrari_logo.png')
+                  st.image(image, width= 150)
+                with col2:
+                  image=Image.open('Ford_logo.png')
+                  st.image(image, width=150)
+              with st.container():
+                col1, col2=st.columns(2)
+                with col1:
+                  st.write(titolo1)
+                  st.write(dataFR1)
+                with col2:
+                  st.write(titolo2)
+                  st.write(dataFR2)
+              st.divider()
+              st.write(mappa2())
+              st.divider()
+              st.write(grafico_candele(dataFR1,titolo1,colore1))
+              st.write(grafico_candele(dataFR2,titolo2,colore2))
+              st.divider()
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
+              st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+              st.divider()
+              st.pyplot(dispersione2(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2))
+              st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+              st.divider()
+              with st.container():
+                col1,col2=st.columns(2)
+                with col1:
+                  st.write(pie(dataFR1,colore1,titolo1))
+                with col2:
+                  st.write(pie(dataFR2,colore2,titolo2))
+              st.divider()
+              st.write(OBV2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
+              st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+              st.divider()
+              st.write(rendimenti_percentuali3(dataFR2, colore2, titolo2))
+              st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+               
     
-          else:
+        else:
             st.subheader("ERRORE!")
             st.sidebar.write("Non hai inserito tutti i dati richiesti.")
-            st.sidebar.write("Per garantire il funzionamento del programma, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
             dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
             with st.container():
               col1, col2=st.columns(2)
@@ -809,6 +838,7 @@ with open('style.css') as f:
               with col2:
                 st.write(titolo2)
                 st.write(dataFR2)
+              st.divider()
               st.write(mappa2())
               st.divider()
               st.write(grafico_candele(dataFR1,titolo1,colore1))
@@ -834,8 +864,8 @@ with open('style.css') as f:
               st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
               st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
 
-        elif l[0]=="3":
-          if len(l)==10:
+      elif l[0]=="3":
+          if len(l)==7:
             titolo1=l[1]
             colore1=l[2].strip()
             titolo2=l[3]
@@ -849,18 +879,136 @@ with open('style.css') as f:
             st.sidebar.subheader("CARICAMENTO TERZO DATASET")
             dati3= st.file_uploader("Carica il terzo dataset")
             if dati1 is not None and dati2 is not None and dati3 is not None:
-              dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
-              with st.container():
-                col1, col2, col3= st.columns(3)
-                with col1:
-                  st.write(titolo1)
-                  st.write(dataFR1)
-                with col2:
-                  st.write(titolo2)
-                  st.write(dataFR2)
-                with col3:
-                  st.write(titolo3)
-                  st.write(dataFR3)
+              check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
+              if check1==True and check2==True and check3==True and equal1==True and equal2==True and equal3==True and colori1==True and colori2==True and colori3==True:
+                with st.container():
+                  col1, col2, col3= st.columns(3)
+                  with col1:
+                    st.write(titolo1)
+                    st.write(dataFR1)
+                  with col2:
+                    st.write(titolo2)
+                    st.write(dataFR2)
+                  with col3:
+                    st.write(titolo3)
+                    st.write(dataFR3)
+                st.divider()
+                st.write(grafico_candele(dataFR1,titolo1,colore1))
+                st.write(grafico_candele(dataFR2,titolo2,colore2))
+                st.write(grafico_candele(dataFR3,titolo3,colore3))
+                st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+                st.divider()
+                st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+                st.divider()
+                st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
+                st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+                st.divider()
+                with st.container():
+                  col1, col2=st.columns(2)
+                  with col1:
+                    st.write(pie(dataFR1,colore1,titolo1))
+                  with col2:
+                    st.write(pie(dataFR2,colore2,titolo2))
+                with st.container():
+                  col1, col2, col3=st.columns(3)
+                  with col1:
+                    st.write(" ")
+                  with col2:
+                    st.write(pie(dataFR3,colore3,titolo3))
+                  with col3:
+                    st.write(" ")
+                st.divider()
+                st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+                st.divider()
+                st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+              else:
+                dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
+                with st.container():
+                  col1, col2, col3=st.columns(3)
+                  with col1:
+                    image= Image.open('ferrari_logo.png')
+                    st.image(image, width= 150)
+                  with col2:
+                    image=Image.open('Ford_logo.png')
+                    st.image(image, width=150)
+                  with col3:
+                    image= Image.open('alfaromeo_logo.png')
+                    st.image(image, width=150)
+                  col1, col2, col3=st.columns(3)
+                  with col1:
+                    st.write(titolo1)
+                    st.write(dataFR1)
+                  with col2:
+                    st.write(titolo2)
+                    st.write(dataFR2)
+                  with col3:
+                    st.write(titolo3)
+                    st.write(dataFR3)
+                  st.divider()
+                  st.write(mappa3())
+                  st.divider()
+                  st.write(grafico_candele(dataFR1,titolo1,colore1))
+                  st.write(grafico_candele(dataFR2,titolo2,colore2))
+                  st.write(grafico_candele(dataFR3,titolo3,colore3))
+                  st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+                  st.divider()
+                  st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                  st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+                  st.divider()
+                  st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
+                  st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+                  st.divider()
+                  with st.container():
+                    col1, col2= st.columns(2)
+                    with col1:
+                      st.write(pie(dataFR1,colore1,titolo1))
+                    with col2:
+                      st.write(pie(dataFR2,colore2,titolo2))
+                    with st.container():
+                      col1, col2, col3=st.columns(3)
+                      with col1:
+                        st.write(" ")
+                      with col2:
+                        st.write(pie(dataFR3,colore3,titolo3))
+                      with col3:
+                        st.write(" ")
+                    st.divider()
+                    st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                    st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+                    st.divider()
+                    st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                    st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")              
+        
+          else:
+            st.sidebar("ERRORE!")
+            st.sidebar.write("Non hai inserito tutti i dati richiesti.")
+            dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
+            with st.container():
+              col1, col2, col3=st.columns(3)
+              with col1:
+                image= Image.open('ferrari_logo.png')
+                st.image(image, width= 150)
+              with col2:
+                image=Image.open('Ford_logo.png')
+                st.image(image, width=150)
+              with col3:
+                image= Image.open('alfaromeo_logo.png')
+                st.image(image, width=150)
+              col1, col2, col3=st.columns(3)
+              with col1:
+                st.write(titolo1)
+                st.write(dataFR1)
+              with col2:
+                st.write(titolo2)
+                st.write(dataFR2)
+              with col3:
+                st.write(titolo3)
+                st.write(dataFR3)
+              st.divider()
+              st.write(mappa3())
               st.divider()
               st.write(grafico_candele(dataFR1,titolo1,colore1))
               st.write(grafico_candele(dataFR2,titolo2,colore2))
@@ -874,7 +1022,7 @@ with open('style.css') as f:
               st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
               st.divider()
               with st.container():
-                col1, col2=st.columns(2)
+                col1, col2= st.columns(2)
                 with col1:
                   st.write(pie(dataFR1,colore1,titolo1))
                 with col2:
@@ -893,66 +1041,6 @@ with open('style.css') as f:
               st.divider()
               st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
               st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
-    
-        else:
-          st.sidebar("ERRORE!")
-          st.sidebar.write("Non hai inserito tutti i dati richiesti.")
-          st.sidebar.write("Per garantire il funzionamento del programma abbiamo dato di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
-          dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
-          with st.container():
-            col1, col2, col3=st.columns(3)
-            with col1:
-              image= Image.open('ferrari_logo.png')
-              st.image(image, width= 150)
-            with col2:
-              image=Image.open('Ford_logo.png')
-              st.image(image, width=150)
-            with col3:
-              image= Image.open('alfaromeo_logo.png')
-              st.image(image, width=150)
-            col1, col2, col3=st.columns(3)
-            with col1:
-              st.write(titolo1)
-              st.write(dataFR1)
-            with col2:
-              st.write(titolo2)
-              st.write(dataFR2)
-            with col3:
-              st.write(titolo3)
-              st.write(dataFR3)
-            st.write(mappa3())
-            st.divider()
-            st.write(grafico_candele(dataFR1,titolo1,colore1))
-            st.write(grafico_candele(dataFR2,titolo2,colore2))
-            st.write(grafico_candele(dataFR3,titolo3,colore3))
-            st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-            st.divider()
-            st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-            st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-            st.divider()
-            st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-            st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-            st.divider()
-            with st.container():
-              col1, col2= st.columns(2)
-              with col1:
-                st.write(pie(dataFR1,colore1,titolo1))
-              with col2:
-                st.write(pie(dataFR2,colore2,titolo2))
-            with st.container():
-              col1, col2, col3=st.columns(3)
-              with col1:
-                st.write(" ")
-              with col2:
-                st.write(pie(dataFR3,colore3,titolo3))
-              with col3:
-                st.write(" ")
-            st.divider()
-            st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-            st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-            st.divider()
-            st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-            st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
 
 
       else:
@@ -1021,7 +1109,7 @@ with open('style.css') as f:
     st.sidebar.write(" ")
     st.sidebar.write(" ")
     st.sidebar.subheader("NUMERO TITOLI DA CONFRONTARE")
-    num = st.sidebar.radio("Scegli il numero di titoli che vuoi confrontare ", options=["1","2","3"], key="num")
+    num = st.sidebar.radio("Scegli il numero di titoli che vuoi confrontare ", options=["1","2","3"])
     if num=="1":
       st.sidebar.subheader("CARICAMENTO DATASET")
       dati1= st.sidebar.file_uploader("Carica il primo dataset")
