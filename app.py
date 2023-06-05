@@ -656,7 +656,10 @@ with open('style.css') as f:
           if dati is not None:
             titolo=l[1]
             colore=l[2].strip()
-            check,colori,dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
+            try:  check,colori,dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
+            except ValueError: 
+              st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+            
             if check==True and colori==True:
               st.write(dataFR1)
               st.write(grafico_candele(dataFR1,titolo1,colore1))
@@ -741,7 +744,11 @@ with open('style.css') as f:
           st.sidebar.subheader("CARICAMENTO SECONDO DATASET")          
           dati2= st.sidebar.file_uploader("Carica il secondo dataset")
           if dati1 is not None and dati2 is not None:
-            check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
+            
+            try: check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
+            except ValueError: 
+              st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+            
             if check1==True and check2==True and equal==True and colori1==True and colori2==True:
               with st.container():
                 col1, col2=st.columns(2)
@@ -873,13 +880,17 @@ with open('style.css') as f:
             titolo3=l[5]
             colore3=l[6].strip()
             st.sidebar.subheader("CARICAMENTO PRIMO DATASET")
-            dati1= st.file_uploader("Carica il primo dataset")
+            dati1= st.sidebar.file_uploader("Carica il primo dataset")
             st.sidebar.subheader("CARICAMENTO SECONDO DATASET")           
-            dati2= st.file_uploader("Carica il secondo dataset")
+            dati2= st.sidebar.file_uploader("Carica il secondo dataset")
             st.sidebar.subheader("CARICAMENTO TERZO DATASET")
-            dati3= st.file_uploader("Carica il terzo dataset")
+            dati3= st.sidebar.file_uploader("Carica il terzo dataset")
             if dati1 is not None and dati2 is not None and dati3 is not None:
-              check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
+                
+              try: check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
+              except ValueError: 
+                st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+              
               if check1==True and check2==True and check3==True and equal1==True and equal2==True and equal3==True and colori1==True and colori2==True and colori3==True:
                 with st.container():
                   col1, col2, col3= st.columns(3)
@@ -925,7 +936,9 @@ with open('style.css') as f:
                 st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
                 st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
               else:
+                print("SONO QUI ERRORE 3")
                 dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
+
                 with st.container():
                   col1, col2, col3=st.columns(3)
                   with col1:
@@ -1114,7 +1127,9 @@ with open('style.css') as f:
       st.sidebar.subheader("CARICAMENTO DATASET")
       dati1= st.sidebar.file_uploader("Carica il primo dataset")
       if dati1 is not None:
-        dataFR1,titolo1,colore1=scelta1(dati1)
+        try: dataFR1,titolo1,colore1=scelta1(dati1)
+        except ValueError: 
+          st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
         st.write(dataFR1)
         st.write(grafico_candele(dataFR1,titolo1,colore1))
         st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
@@ -1138,7 +1153,10 @@ with open('style.css') as f:
       dati1=st.sidebar.file_uploader("Carica il primo dataset")
       dati2=st.sidebar.file_uploader("Carica il secondo dataset")
       if dati1 is not None and dati2 is not None:
-        dataFR1,dataFR2, titolo1, titolo2, colore1, colore2= scelta2(dati1,dati2)
+        try: dataFR1,dataFR2, titolo1, titolo2, colore1, colore2= scelta2(dati1,dati2)
+        except ValueError: 
+            st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+
         with st.container():
           col1, col2=st.columns(2)
           with col1:
@@ -1176,7 +1194,9 @@ with open('style.css') as f:
       dati2=st.sidebar.file_uploader("Carica il secondo dataset")
       dati3=st.sidebar.file_uploader("Carica il terzo dataset")
       if dati1 is not None and dati2 is not None and dati3 is not None:
-        dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3(dati1,dati2,dati3)
+        try:  dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3(dati1,dati2,dati3)
+        except ValueError: 
+            st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
         with st.container():
           col1, col2, col3=st.columns(3)
           with col1:
