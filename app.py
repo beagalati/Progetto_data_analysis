@@ -8,6 +8,7 @@ from PIL import Image
 
 #file
 def errore1():
+      st.sidebar.warning("ERRORE!")
       st.sidebar.write("Poiché non sono stati inseriti i valori corretti, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
       nome_tot1="FERRARI.csv"
       data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -17,6 +18,7 @@ def errore1():
       return dataFR1,colore,titolo
 
 def errore2():
+    st.sidebar.warning("ERRORE!")
     st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
     nome_tot1="FERRARI.csv"
     data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -31,6 +33,7 @@ def errore2():
     return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2
 
 def errore3():
+    st.sidebar.warning("ERRORE!")
     st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
     nome_tot1="FERRARI.csv"
     data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -158,23 +161,24 @@ def scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore
   
 #input
 def scelta1(dati1):
+  
   condizione=True
   while condizione:
     data1=pd.read_csv(dati1,parse_dates=["Date"])
     dataFR1=pd.DataFrame(data1)
-    if list(dataFR1.columns)!=["Date","Open","High","Low","Close","Adj Close","Volume"]:
-      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi. Riprova, eliminando il file caricato e inserendo questa volta quello contenente i dati corretti!")
-    else:
+    if list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
       condizione=False
-
+    else:
+      st.warning("ERRORE!")  
   
   st.sidebar.subheader("NOME TITOLO")
   titolo1=st.sidebar.text_input("Inserisci il nome del titolo di cui sono stati appena inseriti i dati: ")
   
   st.sidebar.subheader("COLORE")
   colore1 = st.sidebar.color_picker("Scegli un colore per i grafici riguardanti il titolo", "#F90034")
-  
+    
   return dataFR1,titolo1,colore1
+    
 
 def scelta2(dati1,dati2):
   condizione=True
@@ -186,7 +190,14 @@ def scelta2(dati1,dati2):
     if dataFR1["Date"].equals(dataFR2["Date"]) and list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
       condizione=False
     else:
-      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titoli. Riprova, eliminando i file caricati e inserendo questa volta quelli contenenti i dati corretti!")
+      st.warning("ERRORE!")
+      if dataFR1["Date"].equals(dataFR2["Date"])==False:
+        st.write("I dataset non considerano periodi uguali.")
+      if list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
+        st.write("Nel primo dataset non sono presenti tutti valori richiesti.")
+      if list(dataFR2.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
+        st.write("Nel secondo dataset non sono presenti tutti i valori richiesti.")
+      
 
   st.sidebar.subheader("NOMI TITOLI")
   titolo1=st.sidebar.text_input("Inserisci il nome del primo titolo di cui sono stati appena inseriti i dati: ")
@@ -210,7 +221,19 @@ def scelta3(dati1,dati2,dati3):
     if dataFR1["Date"].equals(dataFR2["Date"]) and dataFR2["Date"].equals(dataFR3["Date"]) and list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
       condizione=False
     else:
-      st.sidebar.write("Non sono presenti tutti i valori richiesti per l'analisi oppure non hai inserito lo stesso periodo di tempo per i due titoli. Riprova, eliminando i file caricati e inserendo questa volta quelli contenenti i dati corretti!")
+      st.warning("ERRORE!")
+      if dataFR1["Date"].equals(dataFR2["Date"])==False:
+        st.write("Il primo e il secondo dataset non considerano periodi uguali.")
+      if dataFR1["Date"].equals(dataFR3["Date"])==False:
+        st.write("Il primo e il terzo dataset non considerano periodi uguali.")
+      if dataFR2["Date"].equals(dataFR3["Date"]):
+        st.write("Il secondo e il terzo dataset non considerano periodi uguali.")
+      if list(dataFR1.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
+        st.write("Nel primo dataset non sono presenti tutti valori richiesti.")
+      if list(dataFR2.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
+        st.write("Nel secondo dataset non sono presenti tutti i valori richiesti.")
+      if list(dataFR3.columns)==["Date","Open","High","Low","Close","Adj Close","Volume"]:
+        st.write("Nel terzo dataset non sono presenti tutti i valori richiesti.")     
   
   
   st.sidebar.subheader("NOMI TITOLI")
@@ -645,25 +668,24 @@ with open('style.css') as f:
     st.sidebar.subheader("CARICAMENTO INPUT.TXT")
     inp= st.sidebar.file_uploader("Carica il file 'INPUT.txt' compilato")
     if inp is not None:
-      inp=pd.read_csv("INPUT.txt") #con open non andava
+      inp=pd.read_csv("INPUT.txt") 
       l=inp.columns
       st.sidebar.write(" ")
       st.sidebar.write(" ")
+      
       if l[0]=="1":
         if len(l)==3:
           st.sidebar.subheader("CARICAMENTO DATASET")
           dati= st.sidebar.file_uploader("Carica il dataset in csv", type=["csv"])
+          
           if dati is not None:
             titolo=l[1]
             colore=l[2].strip()
-            try:  check,colori,dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
-            except ValueError: 
-              st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
-            
+            check,colori,dataFR1,colore1,titolo1=scelta1file(dati,titolo,colore)
             if check==True and colori==True:
               st.write(dataFR1)
               st.write(grafico_candele(dataFR1,titolo1,colore1))
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.divider()
               st.write(media_mobile1(dataFR1,colore1))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -688,7 +710,7 @@ with open('style.css') as f:
               st.write(mappa1())
               st.divider()
               st.write(grafico_candele(dataFR1,titolo1,colore1))
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.divider()
               st.write(media_mobile1(dataFR1,colore1))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -705,7 +727,7 @@ with open('style.css') as f:
               st.write("Il rendimento di un'azione indica il guadagno o la perdita prodotti da un investimento in un'azione. ")                
               
         else:
-          st.sidebar.subheader("ERRORE!")
+          st.sidebar.warning("ERRORE!")
           st.sidebar.write("Non hai inserito tutti i dati richiesti.")
           dataFR1,colore1,titolo1=errore1()
           st.write(titolo1)
@@ -716,7 +738,7 @@ with open('style.css') as f:
           st.write(mappa1())
           st.divider()
           st.write(grafico_candele(dataFR1,titolo1,colore1))
-          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
           st.divider()
           st.write(media_mobile1(dataFR1,colore1))
           st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -734,20 +756,19 @@ with open('style.css') as f:
         
 
       elif l[0]=="2":
+       
         if len(l)==5:
-          titolo1=l[1]
-          colore1=l[2].strip()
-          titolo2=l[3]
-          colore2=l[4].strip()
           st.sidebar.subheader("CARICAMENTO PRIMO DATASET")
-          dati1= st.sidebar.file_uploader("Carica il primo dataset")
+          dati1= st.sidebar.file_uploader("Carica il primo dataset", type=["csv"])
           st.sidebar.subheader("CARICAMENTO SECONDO DATASET")          
-          dati2= st.sidebar.file_uploader("Carica il secondo dataset")
+          dati2= st.sidebar.file_uploader("Carica il secondo dataset", type=["csv"])
+         
           if dati1 is not None and dati2 is not None:
-            
-            try: check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
-            except ValueError: 
-              st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+            titolo1=l[1]
+            colore1=l[2].strip()
+            titolo2=l[3]
+            colore2=l[4].strip()
+            check1,check2,equal,colori1,colori2,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=scelta2file(dati1,titolo1,colore1,dati2,titolo2,colore2)
             
             if check1==True and check2==True and equal==True and colori1==True and colori2==True:
               with st.container():
@@ -762,7 +783,7 @@ with open('style.css') as f:
               st.write(grafico_candele(dataFR1,titolo1,colore1))
               st.write(grafico_candele(dataFR2,titolo2,colore2))
               st.divider()
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
               st.divider()
@@ -805,7 +826,7 @@ with open('style.css') as f:
               st.write(grafico_candele(dataFR1,titolo1,colore1))
               st.write(grafico_candele(dataFR2,titolo2,colore2))
               st.divider()
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
               st.divider()
@@ -827,7 +848,7 @@ with open('style.css') as f:
                
     
         else:
-            st.subheader("ERRORE!")
+            st.warning("ERRORE!")
             st.sidebar.write("Non hai inserito tutti i dati richiesti.")
             dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
             with st.container():
@@ -850,7 +871,7 @@ with open('style.css') as f:
               st.divider()
               st.write(grafico_candele(dataFR1,titolo1,colore1))
               st.write(grafico_candele(dataFR2,titolo2,colore2))
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.divider()
               st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -872,24 +893,23 @@ with open('style.css') as f:
               st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
 
       elif l[0]=="3":
+         
           if len(l)==7:
-            titolo1=l[1]
-            colore1=l[2].strip()
-            titolo2=l[3]
-            colore2=l[4].strip()
-            titolo3=l[5]
-            colore3=l[6].strip()
             st.sidebar.subheader("CARICAMENTO PRIMO DATASET")
-            dati1= st.sidebar.file_uploader("Carica il primo dataset")
+            dati1= st.sidebar.file_uploader("Carica il primo dataset", type=["csv"])
             st.sidebar.subheader("CARICAMENTO SECONDO DATASET")           
-            dati2= st.sidebar.file_uploader("Carica il secondo dataset")
+            dati2= st.sidebar.file_uploader("Carica il secondo dataset", type=["csv"])
             st.sidebar.subheader("CARICAMENTO TERZO DATASET")
-            dati3= st.sidebar.file_uploader("Carica il terzo dataset")
+            dati3= st.sidebar.file_uploader("Carica il terzo dataset", type=["csv"])
+            
             if dati1 is not None and dati2 is not None and dati3 is not None:
-                
-              try: check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
-              except ValueError: 
-                st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
+              titolo1=l[1]
+              colore1=l[2].strip()
+              titolo2=l[3]
+              colore2=l[4].strip()
+              titolo3=l[5]
+              colore3=l[6].strip() 
+              check1, check2, check3, equal1, equal2, equal3, colori1, colori2, colori3,dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=scelta3file(dati1,titolo1,colore1,dati2,titolo2,colore2,dati3,titolo3,colore3)
               
               if check1==True and check2==True and check3==True and equal1==True and equal2==True and equal3==True and colori1==True and colori2==True and colori3==True:
                 with st.container():
@@ -907,7 +927,7 @@ with open('style.css') as f:
                 st.write(grafico_candele(dataFR1,titolo1,colore1))
                 st.write(grafico_candele(dataFR2,titolo2,colore2))
                 st.write(grafico_candele(dataFR3,titolo3,colore3))
-                st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+                st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
                 st.divider()
                 st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
                 st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -936,7 +956,6 @@ with open('style.css') as f:
                 st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
                 st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
               else:
-                print("SONO QUI ERRORE 3")
                 dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
 
                 with st.container():
@@ -966,7 +985,7 @@ with open('style.css') as f:
                   st.write(grafico_candele(dataFR1,titolo1,colore1))
                   st.write(grafico_candele(dataFR2,titolo2,colore2))
                   st.write(grafico_candele(dataFR3,titolo3,colore3))
-                  st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+                  st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
                   st.divider()
                   st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
                   st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -996,7 +1015,7 @@ with open('style.css') as f:
                     st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")              
         
           else:
-            st.sidebar("ERRORE!")
+            st.sidebar.warning("ERRORE!")
             st.sidebar.write("Non hai inserito tutti i dati richiesti.")
             dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
             with st.container():
@@ -1026,7 +1045,7 @@ with open('style.css') as f:
               st.write(grafico_candele(dataFR1,titolo1,colore1))
               st.write(grafico_candele(dataFR2,titolo2,colore2))
               st.write(grafico_candele(dataFR3,titolo3,colore3))
-              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+              st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
               st.divider()
               st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
               st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -1057,7 +1076,7 @@ with open('style.css') as f:
 
 
       else:
-        st.sidebar.subheader("ERRORE!")
+        st.sidebar.warning("ERRORE!")
         st.sidebar.write("Non hai inserito un numero compreso tra 1 e 3.")
         st.sidebar.write("Per garantire il funzionamento del programma sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
         dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
@@ -1087,7 +1106,7 @@ with open('style.css') as f:
         st.write(grafico_candele(dataFR1,titolo1,colore1))
         st.write(grafico_candele(dataFR2,titolo2,colore2))
         st.write(grafico_candele(dataFR3,titolo3,colore3))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
         st.divider()
         st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
         st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -1125,49 +1144,48 @@ with open('style.css') as f:
     num = st.sidebar.radio("Scegli il numero di titoli che vuoi confrontare ", options=["1","2","3"])
     if num=="1":
       st.sidebar.subheader("CARICAMENTO DATASET")
-      dati1= st.sidebar.file_uploader("Carica il primo dataset")
+      dati1= st.sidebar.file_uploader("Carica il primo dataset", type=["csv"])
       if dati1 is not None:
-        try: dataFR1,titolo1,colore1=scelta1(dati1)
-        except ValueError: 
-          st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
-        st.write(dataFR1)
-        st.write(grafico_candele(dataFR1,titolo1,colore1))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-        st.divider()
-        st.write(media_mobile1(dataFR1,colore1))
-        st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-        st.divider()
-        st.pyplot(dispersione1(dataFR1,titolo1,colore1))
-        st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-        st.divider()
-        st.write(pie(dataFR1,colore1,titolo1))
-        st.divider()
-        st.write(OBV(dataFR1,colore1))
-        st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-        st.divider()
-        st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
-        st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+        try:
+          dataFR1,titolo1,colore1=scelta1(dati1)
+          st.write(dataFR1)
+          st.write(grafico_candele(dataFR1,titolo1,colore1))
+          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+          st.divider()
+          st.write(media_mobile1(dataFR1,colore1))
+          st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+          st.divider()
+          st.pyplot(dispersione1(dataFR1,titolo1,colore1))
+          st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+          st.divider()
+          st.write(pie(dataFR1,colore1,titolo1))
+          st.divider()
+          st.write(OBV(dataFR1,colore1))
+          st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+          st.divider()
+          st.write(rendimenti_percentuali1(dataFR1,colore1,titolo1))
+          st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+        except ValueError:
+          st.warning("Poiché non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti!")
 
     elif num=="2":
       st.sidebar.subheader("CARICAMENTO DATASET")
-      dati1=st.sidebar.file_uploader("Carica il primo dataset")
-      dati2=st.sidebar.file_uploader("Carica il secondo dataset")
+      dati1=st.sidebar.file_uploader("Carica il primo dataset", type=["csv"])
+      dati2=st.sidebar.file_uploader("Carica il secondo dataset", type=["csv"])
       if dati1 is not None and dati2 is not None:
-        try: dataFR1,dataFR2, titolo1, titolo2, colore1, colore2= scelta2(dati1,dati2)
-        except ValueError: 
-            st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
-
-        with st.container():
-          col1, col2=st.columns(2)
-          with col1:
-            st.write(titolo1)
-            st.write(dataFR1)
-          with col2:
-            st.write(titolo2)
-            st.write(dataFR2)
+        try: 
+          dataFR1,dataFR2, titolo1, titolo2, colore1, colore2= scelta2(dati1,dati2)
+          with st.container():
+            col1, col2=st.columns(2)
+            with col1:
+              st.write(titolo1)
+              st.write(dataFR1)
+            with col2:
+              st.write(titolo2)
+              st.write(dataFR2)
           st.write(grafico_candele(dataFR1,titolo1,colore1))
           st.write(grafico_candele(dataFR2,titolo2,colore2))
-          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
           st.divider()
           st.write(media_mobile2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
           st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
@@ -1187,58 +1205,64 @@ with open('style.css') as f:
           st.divider()
           st.write(rendimenti_percentuali2(dataFR1,dataFR2,colore1,colore2,titolo1,titolo2))
           st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+        except ValueError: 
+          st.warning("Poiché non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti!")
+          
 
     elif num=="3":
       st.sidebar.subheader("CARICAMENTO DATASET")
-      dati1=st.sidebar.file_uploader("Carica il primo dataset")
-      dati2=st.sidebar.file_uploader("Carica il secondo dataset")
-      dati3=st.sidebar.file_uploader("Carica il terzo dataset")
+      dati1=st.sidebar.file_uploader("Carica il primo dataset", type=["csv"])
+      dati2=st.sidebar.file_uploader("Carica il secondo dataset", type=["csv"])
+      dati3=st.sidebar.file_uploader("Carica il terzo dataset", type=["csv"])
       if dati1 is not None and dati2 is not None and dati3 is not None:
-        try:  dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3(dati1,dati2,dati3)
-        except ValueError: 
-            st.write("Non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti")
-        with st.container():
-          col1, col2, col3=st.columns(3)
-          with col1:
-            st.write(titolo1)
-            st.write(dataFR1)
-          with col2:
-            st.write(titolo2)
-            st.write(dataFR2)
-          with col3:
-            st.write(titolo3)
-            st.write(dataFR3)
-        st.write(grafico_candele(dataFR1,titolo1,colore1))
-        st.write(grafico_candele(dataFR2,titolo2,colore2))
-        st.write(grafico_candele(dataFR3,titolo3,colore3))
-        st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, la cui parte superiore indica il prezzo di apertura (open) e quella inferiore quello di chiusura (close). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-        st.divider()
-        st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-        st.divider()
-        st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-        st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-        st.divider()
-        with st.container():
-          col1, col2= st.columns(2)
-          with col1:
-            st.write(pie(dataFR1,colore1,titolo1))
-          with col2:
-            st.write(pie(dataFR2,colore2,titolo2))
-        with st.container():
+        try:  
+          dataFR1,dataFR2,dataFR3,titolo1,titolo2,titolo3,colore1,colore2,colore3=scelta3(dati1,dati2,dati3)
+          with st.container():
             col1, col2, col3=st.columns(3)
             with col1:
-              st.write(" ")
+              st.write(titolo1)
+              st.write(dataFR1)
             with col2:
-              st.write(pie(dataFR3,colore3,titolo3))
+              st.write(titolo2)
+              st.write(dataFR2)
             with col3:
-              st.write(" ")
-        st.divider()
-        st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-        st.divider()
-        st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-        st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+              st.write(titolo3)
+              st.write(dataFR3)
+          st.write(grafico_candele(dataFR1,titolo1,colore1))
+          st.write(grafico_candele(dataFR2,titolo2,colore2))
+          st.write(grafico_candele(dataFR3,titolo3,colore3))
+          st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+          st.divider()
+          st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+          st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+          st.divider()
+          st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
+          st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+          st.divider()
+          with st.container():
+            col1, col2= st.columns(2)
+            with col1:
+              st.write(pie(dataFR1,colore1,titolo1))
+            with col2:
+              st.write(pie(dataFR2,colore2,titolo2))
+          with st.container():
+              col1, col2, col3=st.columns(3)
+              with col1:
+                st.write(" ")
+              with col2:
+                st.write(pie(dataFR3,colore3,titolo3))
+              with col3:
+                st.write(" ")
+          st.divider()
+          st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+          st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+          st.divider()
+          st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+          st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
+        except ValueError: 
+          st.warning("Poiché non sono presenti tutti i valori richiesti per l'analisi, riprova eliminando i dati caricati e inserendo quelli corretti!")
+       
+
     
   
 
