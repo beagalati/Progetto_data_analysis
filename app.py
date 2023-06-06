@@ -8,7 +8,6 @@ from PIL import Image
 
 #file
 def errore1():
-      st.sidebar.warning("ERRORE!")
       st.sidebar.write("Poiché non sono stati inseriti i valori corretti, sono stati forniti di default i dati mensili dell'anno 2022 del titolo 'FERRARI'.")
       nome_tot1="FERRARI.csv"
       data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -18,7 +17,6 @@ def errore1():
       return dataFR1,colore,titolo
 
 def errore2():
-    st.sidebar.warning("ERRORE!")
     st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI' e 'FORD'.")
     nome_tot1="FERRARI.csv"
     data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -33,7 +31,6 @@ def errore2():
     return dataFR1,colore1,titolo1,dataFR2,colore2,titolo2
 
 def errore3():
-    st.sidebar.warning("ERRORE!")
     st.sidebar.write("Poiché non sono stati inseriti tutti i valori giusti, sono stati forniti di default i dati mensili dell'anno 2022 dei titoli 'FERRARI', 'FORD' e 'ALFA ROMEO'.")
     nome_tot1="FERRARI.csv"
     data1=pd.read_csv(nome_tot1,parse_dates=["Date"])
@@ -705,6 +702,7 @@ with open('style.css') as f:
               st.write(titolo1)
               image= Image.open('ferrari_logo.png')
               st.image(image, width= 150)
+              st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
               st.write(dataFR1)
               st.divider()
               st.write(mappa1())
@@ -728,11 +726,12 @@ with open('style.css') as f:
               
         else:
           st.sidebar.warning("ERRORE!")
-          st.sidebar.write("Non hai inserito tutti i dati richiesti.")
+          st.sidebar.warning("Non hai inserito tutti i dati richiesti.")
           dataFR1,colore1,titolo1=errore1()
           st.write(titolo1)
           image= Image.open('ferrari_logo.png')
           st.image(image, width= 150)
+          st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
           st.write(dataFR1)
           st.divider()
           st.write(mappa1())
@@ -812,6 +811,11 @@ with open('style.css') as f:
                 with col2:
                   image=Image.open('Ford_logo.png')
                   st.image(image, width=150)
+              scelta1= st.selectbox("ABOUT:",options=["FERRARI","FORD"],key="scelta1")
+              if scelta1=="FERRARI":
+                st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
+              elif scelta1=="FORD":
+                st.write("Ford Motor Company è una casa automobilistica statunitense, fondata da Henry Ford a Dearborn(Michigan) nel 1904 È nota per aver utilizzato per la prima volta la catena di montaggio e il nastro trasportatore, in seguito adottati da numerose altre aziende e tuttora usati nelle industrie moderne. Tale fenomeno venne indicato come fordismo. Wikipedia")
               with st.container():
                 col1, col2=st.columns(2)
                 with col1:
@@ -848,8 +852,8 @@ with open('style.css') as f:
                
     
         else:
-            st.warning("ERRORE!")
-            st.sidebar.write("Non hai inserito tutti i dati richiesti.")
+            st.sidebar.warning("ERRORE!")
+            st.sidebar.warning("Non hai inserito tutti i dati richiesti.")
             dataFR1,colore1,titolo1,dataFR2,colore2,titolo2=errore2()
             with st.container():
               col1, col2=st.columns(2)
@@ -859,6 +863,11 @@ with open('style.css') as f:
               with col2:
                 image=Image.open('Ford_logo.png')
                 st.image(image, width=150)
+              scelta2= st.selectbox("ABOUT:",options=["FERRARI","FORD"],key="scelta2")
+              if scelta2=="FERRARI":
+                st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
+              elif scelta2=="FORD":
+                st.write("Ford Motor Company è una casa automobilistica statunitense, fondata da Henry Ford a Dearborn(Michigan) nel 1904 È nota per aver utilizzato per la prima volta la catena di montaggio e il nastro trasportatore, in seguito adottati da numerose altre aziende e tuttora usati nelle industrie moderne. Tale fenomeno venne indicato come fordismo. Wikipedia")
               col1, col2=st.columns(2)
               with col1:
                 st.write(titolo1)
@@ -957,7 +966,6 @@ with open('style.css') as f:
                 st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")
               else:
                 dataFR1,colore1,titolo1,dataFR2,colore2,titolo2,dataFR3,colore3,titolo3=errore3()
-
                 with st.container():
                   col1, col2, col3=st.columns(3)
                   with col1:
@@ -969,51 +977,58 @@ with open('style.css') as f:
                   with col3:
                     image= Image.open('alfaromeo_logo.png')
                     st.image(image, width=150)
-                  col1, col2, col3=st.columns(3)
+                scelta3= st.selectbox("ABOUT:",options=["FERRARI","FORD","ALFA ROMEO"],key="scelta3")
+                if scelta3=="FERRARI":
+                  st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
+                elif scelta3=="FORD":
+                  st.write("Ford Motor Company è una casa automobilistica statunitense, fondata da Henry Ford a Dearborn(Michigan) nel 1904 È nota per aver utilizzato per la prima volta la catena di montaggio e il nastro trasportatore, in seguito adottati da numerose altre aziende e tuttora usati nelle industrie moderne. Tale fenomeno venne indicato come fordismo. Wikipedia")
+                else:
+                  st.write("Alfa Romeo è un’azienda italiana nota per la produzione di vetture dal carattere sportivo. Fondata il 24 giugno 1910 a Milano come A.L.F.A. (acronimo di 'Anonima Lombarda Fabbrica Automobili'), nel 1918 cambiò nome in 'Alfa Romeo' in seguito all'acquisizione del controllo della società da parte di Nicola Romeo. Wikipedia ")
+                col1, col2, col3=st.columns(3)
+                with col1:
+                  st.write(titolo1)
+                  st.write(dataFR1)
+                with col2:
+                  st.write(titolo2)
+                  st.write(dataFR2)
+                with col3:
+                  st.write(titolo3)
+                  st.write(dataFR3)
+                st.divider()
+                st.write(mappa3())
+                st.divider()
+                st.write(grafico_candele(dataFR1,titolo1,colore1))
+                st.write(grafico_candele(dataFR2,titolo2,colore2))
+                st.write(grafico_candele(dataFR3,titolo3,colore3))
+                st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
+                st.divider()
+                st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
+                st.divider()
+                st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
+                st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
+                st.divider()
+                with st.container():
+                  col1, col2= st.columns(2)
                   with col1:
-                    st.write(titolo1)
-                    st.write(dataFR1)
+                    st.write(pie(dataFR1,colore1,titolo1))
                   with col2:
-                    st.write(titolo2)
-                    st.write(dataFR2)
-                  with col3:
-                    st.write(titolo3)
-                    st.write(dataFR3)
-                  st.divider()
-                  st.write(mappa3())
-                  st.divider()
-                  st.write(grafico_candele(dataFR1,titolo1,colore1))
-                  st.write(grafico_candele(dataFR2,titolo2,colore2))
-                  st.write(grafico_candele(dataFR3,titolo3,colore3))
-                  st.write("Il grafico a candele è un grafico finanziario che mostra i movimenti di prezzo dei titoli in una seduta. Ha la forma di una candela, in cui la parte superiore e la parte inferiore rappresentano i valori di apertura e chiusura (nel caso di crescita del titolo l'Open sarà indicato dalla parte inferiore e il Close da quella superiore, viceversa nel caso opposto). Le sporgenze indicano invece il prezzo più alto e più basso della seduta in esame. In particolare, in questo grafico, le candele oro indicano una crescita del titolo nel corso della seduta (Close>Open), mentre quelle marroni una diminuzione (Close<Open).")
-                  st.divider()
-                  st.write(media_mobile3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-                  st.write("La media mobile è usata per apprezzare la direzione corrente di una tendenza.")
-                  st.divider()
-                  st.pyplot(dispersione3(dataFR1,titolo1,colore1,dataFR2,titolo2,colore2,dataFR3,titolo3,colore3))
-                  st.write("La volatilità esprime le deviazioni (gli scarti) tra prezzo effettivo e prezzo medio per ogni periodo considerato.")
-                  st.divider()
+                    st.write(pie(dataFR2,colore2,titolo2))
                   with st.container():
-                    col1, col2= st.columns(2)
+                    col1, col2, col3=st.columns(3)
                     with col1:
-                      st.write(pie(dataFR1,colore1,titolo1))
+                      st.write(" ")
                     with col2:
-                      st.write(pie(dataFR2,colore2,titolo2))
-                    with st.container():
-                      col1, col2, col3=st.columns(3)
-                      with col1:
-                        st.write(" ")
-                      with col2:
-                        st.write(pie(dataFR3,colore3,titolo3))
-                      with col3:
-                        st.write(" ")
-                    st.divider()
-                    st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-                    st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
-                    st.divider()
-                    st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
-                    st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")              
-        
+                      st.write(pie(dataFR3,colore3,titolo3))
+                    with col3:
+                      st.write(" ")
+                  st.divider()
+                  st.write(OBV3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                  st.write("L' On Balance Volume (OBV) è un indicatore che mette in relazione il volume con le variazioni di prezzo, poiché quando c'è un volume di trading, il prezzo prima o poi ne risentirà. ")
+                  st.divider()
+                  st.write(rendimenti_percentuali3(dataFR1,dataFR2,dataFR3,colore1,colore2,colore3,titolo1,titolo2,titolo3))
+                  st.write("Il rendimento di un’azione indica il guadagno o la perdita prodotti da un investimento in un’azione. ")              
+      
           else:
             st.sidebar.warning("ERRORE!")
             st.sidebar.write("Non hai inserito tutti i dati richiesti.")
@@ -1029,6 +1044,13 @@ with open('style.css') as f:
               with col3:
                 image= Image.open('alfaromeo_logo.png')
                 st.image(image, width=150)
+              scelta3= st.selectbox("ABOUT:",options=["FERRARI","FORD","ALFA ROMEO"],key="scelta3")
+              if scelta3=="FERRARI":
+                st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
+              elif scelta3=="FORD":
+                st.write("Ford Motor Company è una casa automobilistica statunitense, fondata da Henry Ford a Dearborn(Michigan) nel 1904 È nota per aver utilizzato per la prima volta la catena di montaggio e il nastro trasportatore, in seguito adottati da numerose altre aziende e tuttora usati nelle industrie moderne. Tale fenomeno venne indicato come fordismo. Wikipedia")
+              else:
+                st.write("Alfa Romeo è un’azienda italiana nota per la produzione di vetture dal carattere sportivo. Fondata il 24 giugno 1910 a Milano come A.L.F.A. (acronimo di 'Anonima Lombarda Fabbrica Automobili'), nel 1918 cambiò nome in 'Alfa Romeo' in seguito all'acquisizione del controllo della società da parte di Nicola Romeo. Wikipedia ")
               col1, col2, col3=st.columns(3)
               with col1:
                 st.write(titolo1)
@@ -1091,6 +1113,13 @@ with open('style.css') as f:
           with col3:
             image= Image.open('alfaromeo_logo.png')
             st.image(image, width=150)
+          scelta3= st.selectbox("ABOUT:",options=["FERRARI","FORD","ALFA ROMEO"],key="scelta3")
+          if scelta3=="FERRARI":
+            st.write("Ferrari S.p.A. è una casa automobilistica italiana fondata da Enzo Ferrari il 12 marzo 1947 a Maranello, in provincia di Modena. Produttrice di automobili sportive di fascia alta e da competizione ed impegnata nell’automobilismo sportivo, è la più titolata nel campionato del mondo di Formula Uno. Il 24 maggio 2013 la Ferrari SpA. è stata incorporata nella società di diritto olandese New Business Netherlands N.V., rinominata Ferrari N.V., e nell'ottobre 2015, una parte delle azioni fu quotata alla Borsa di New York. Wikipedia")
+          elif scelta3=="FORD":
+            st.write("Ford Motor Company è una casa automobilistica statunitense, fondata da Henry Ford a Dearborn(Michigan) nel 1904 È nota per aver utilizzato per la prima volta la catena di montaggio e il nastro trasportatore, in seguito adottati da numerose altre aziende e tuttora usati nelle industrie moderne. Tale fenomeno venne indicato come fordismo. Wikipedia")
+          else:
+            st.write("Alfa Romeo è un’azienda italiana nota per la produzione di vetture dal carattere sportivo. Fondata il 24 giugno 1910 a Milano come A.L.F.A. (acronimo di 'Anonima Lombarda Fabbrica Automobili'), nel 1918 cambiò nome in 'Alfa Romeo' in seguito all'acquisizione del controllo della società da parte di Nicola Romeo. Wikipedia ")
           col1, col2, col3=st.columns(3)
           with col1:
             st.write(titolo1)
